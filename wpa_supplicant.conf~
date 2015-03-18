@@ -1,0 +1,15 @@
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=wheel
+
+network={
+	ssid="iit-wifi"
+	proto=WPA
+	key_mgmt=WPA-EAP
+	eap=PEAP
+	identity="mirand_t"
+	anonymous_identity="mirand_t"
+	password="N0/Gb}Bg"
+	phase1="peaplabel=0"
+	phase2="auth=MSCHAPV2"
+	priority=2
+	}
+
