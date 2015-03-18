@@ -1,0 +1,10 @@
+#!/bin/sh
+
+if [ $1 -lt  930 ]
+then
+echo $1 > /sys/class/backlight/intel_backlight/brightness
+else
+echo max brightness = 930
+exit -1
+fi
+exit 0
