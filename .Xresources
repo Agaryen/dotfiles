@@ -1,0 +1,36 @@
+*.scrollBar: false
+*.pixelsize: 100
+*.foreground:   #98d1ce
+*.background:   #0a0f14
+
+*.cursorColor:  #98d1ce
+
+*.color0:       #0a0f14
+*.color8:       #10151b
+
+*.color1:       #c33027
+*.color9:       #d26939
+
+*.color2:       #26a98b
+*.color10:      #4C5D67
+
+*.color3:       #edb54b
+*.color11:      #245361
+
+*.color4:       #195465
+*.color12:      #214b5a
+
+*.color5:       #4e5165
+*.color13:      #888ba5
+
+*.color6:       #33859d
+*.color14:      #599caa
+
+*.color7:       #98d1ce
+*.color15:      #d3ebe9
+
+*font: xft:Terminess Powerline:style=Regular:size=11
+*.boldFont: xft:Terminess Powerline:style=Bold:size=11
+*.italicFont: xft:Terminess Powerline:style=Italic:size=11
+*.boldItalicFont: xft:Terminess Powerline:style=Bold:style=Italic:size=11
+*.depth: 32
