@@ -3,6 +3,8 @@ set number
 set cursorline
 set updatetime=1000
 
+:let mapleader=' ' 
+
 filetype plugin on
 filetype plugin indent on
 syntax on
@@ -60,6 +62,13 @@ imap [29~ 
 map [29~ <>
 vmap [29~ 
 
+nmap <Leader>t :NERDTreeToggle<CR>
+nmap <Leader><Left> :bp<CR>
+nmap <Leader><Right> :bn<CR>
+nmap <Leader><Up> :bf<CR>
+nmap <Leader><Down> :bl<CR>
+nmap <Leader>d :bd<CR>
+
 let ext = expand("%:e")
 if (ext == "h" || ext == "c" || ext == "hpp" || ext == "cpp")
    set softtabstop=2
@@ -84,5 +93,3 @@ source ~/.vim/epitech.vim
 
 :set listchars+=nbsp:#
 set laststatus=2
-
-
