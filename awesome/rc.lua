@@ -69,15 +69,15 @@ filemanager   = "spacefm"
 local layouts =
 {
    lain.layout.uselesstile,
-   lain.layout.termfair,
    lain.layout.centerfair,
-   lain.layout.cascade,
-   lain.layout.cascadetile,
    lain.layout.centerwork,
    lain.layout.uselessfair,
-   lain.layout.uselesspiral,
-   lain.layout.uselesstile
+   lain.layout.cascade,
+   lain.layout.uselesspiral
 }
+
+lain.layout.centerfair.nmaster = 3
+lain.layout.centerfair.ncol = 1
 
 -- | Wallpaper | --
 
@@ -154,7 +154,7 @@ mailwidget:set_bgimage(beautiful.widget_display)
 
 cpu_widget = lain.widgets.cpu({
     settings = function()
-        widget:set_markup(space3 .. cpu_now.usage .. "%" .. markup.font("Tamsyn 4", " "))
+        widget:set_markup(space3 .. cpu_now.usage .. " %" .. markup.font("Tamsyn 4", " "))
     end
 })
 
@@ -187,7 +187,7 @@ volumewidget = lain.widgets.alsa({
             volicon:set_image(beautiful.widget_vol)
         end
 
-        widget:set_text(" " .. volume_now.level .. "% ")
+        widget:set_text(" " .. volume_now.level .. " % ")
     end
 })
 
@@ -195,7 +195,7 @@ volumewidget = lain.widgets.alsa({
 
 mem_widget = lain.widgets.mem({
     settings = function()
-        widget:set_markup(space3 .. mem_now.used .. "MB" .. markup.font("Tamsyn 4", " "))
+        widget:set_markup(space3 .. mem_now.used .. " MB" .. markup.font("Tamsyn 4", " "))
     end
 })
 
@@ -220,14 +220,14 @@ batwidget = lain.widgets.bat({
         else
             baticon:set_image(beautiful.widget_battery)
         end
-        widget:set_markup(" " .. bat_now.perc .. "% ")
+        widget:set_markup(" " .. bat_now.perc .. " % ")
     end
 })
 
 -- | FS | --
 
 fs_widget = wibox.widget.textbox()
-vicious.register(fs_widget, vicious.widgets.fs, vspace1 .. "${/ avail_gb}GB" .. vspace1, 2)
+vicious.register(fs_widget, vicious.widgets.fs, vspace1 .. "${/ avail_gb} GB" .. vspace1, 2)
 
 widget_fs = wibox.widget.imagebox()
 widget_fs:set_image(beautiful.widget_fs)
