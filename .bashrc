@@ -1,25 +1,31 @@
 #
-# ~/.bashrc
+# /etc/bash.bashrc
 #
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-[[ -f ~/.Xresources ]] && xrdb -merge ~/.Xresources
-
-DEFAULTSESSION=awesome
-
-export USER_NICKNAME="thibault miranda de oliveira"
-export TERM="rxvt-unicode-256color"
-export EDITOR="vim"
-
 alias ls='ls --color=auto'
 alias ll='ls -l'
 alias la='ls -la'
-alias emacs='emacs -nw'
-alias em='emacs'
 alias boff='xset b off'
-alias wee='weechat'
-alias q!='exit'
+alias :o='vim'
 
-PS1='\[\e[0;32m\][\u : \W] $ \[\e[0m\]'
+PS1='\[\e[1;32m\][\u@\h \W]\$\[\e[0m\] '
+PS2='> '
+PS3='> '
+PS4='+ '
+
+set -o vi
+
+case ${TERM} in
+  xterm*|rxvt*|Eterm|aterm|kterm|gnome*)
+    PROMPT_COMMAND=${PROMPT_COMMAND:+$PROMPT_COMMAND; }'printf "\033]0;%s@%s:%s\007" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/\~}"'
+
+    ;;
+  screen)
+    PROMPT_COMMAND=${PROMPT_COMMAND:+$PROMPT_COMMAND; }'printf "\033_%s@%s:%s\033\\" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/\~}"'
+    ;;
+esac
+
+[ -r /usr/share/bash-completion/bash_completion   ] && . /usr/share/bash-completion/bash_completion
