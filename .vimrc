@@ -2,8 +2,10 @@ set nocompatible
 set number
 set cursorline
 set updatetime=1000
+set exrc
+set secure
 
-:let mapleader=' ' 
+let mapleader=' ' 
 
 filetype plugin on
 filetype plugin indent on
@@ -32,6 +34,9 @@ set ruler
 set showcmd
 set incsearch
 
+set wildignore=*.o,*.obj,*.bak,*.exe
+let &path.="src/include,/usr/include/,include,"
+
 set mouse=a
 set ttymouse=urxvt
 
@@ -48,6 +53,8 @@ set laststatus=2
 
 let g:delimitMate_expand_cr = 1
 
+set ttimeoutlen=1
+
 "AIRLINE
 
 let g:airline_theme = "badwolf"
@@ -58,38 +65,55 @@ let g:airline#extensions#tabline#enabled = 1
 
 nmap <Tab> ==
 imap <Tab> <C-v><Tab>
-imap [29~ 
-map [29~ <>
-vmap [29~ 
+map! [29~ `^
+map [29~ <NOP>
+vmap [29~ <ESC>
 
 nmap <Leader>t :NERDTreeToggle<CR>
-nmap <Leader><Left> :bp<CR>
-nmap <Leader><Right> :bn<CR>
-nmap <Leader><Up> :bf<CR>
-nmap <Leader><Down> :bl<CR>
-nmap <Leader>d :bd<CR>
+nmap s <Plug>(easymotion-prefix)
+
+nmap <C-h> :bp<CR>
+nmap <C-l> :bn<CR>
+nmap <C-j> :bf<CR>
+nmap <C-k> :bl<CR>
+nmap <C-d> :bd<CR>
+
+map <Left> <NOP>
+imap <Left> <NOP>
+map <Right> <NOP>
+imap <Right> <NOP>
+map <Up> <NOP>
+imap <Up> <NOP>
+map <Down> <NOP>
+imap <Down> <NOP>
+
+"AUTOCOMPLETE
+"set completeopt-=preview
+autocmd CompleteDone * pclose
 
 let ext = expand("%:e")
-if (ext == "h" || ext == "c" || ext == "hpp" || ext == "cpp")
+if (ext == "h" || ext == "c" || ext == "cpp" || ext == "hpp" || ext == "hh" || ext == "cc")
+   set tabstop=2
    set softtabstop=2
    set shiftwidth=2
    set expandtab
    set cindent
    set cinoptions={1s,>2s,e-1s,^-1s,n-1s,:1s,p5,i4,(0,u0,W1s
-   highlight OverLength ctermbg=red ctermfg=white
-   match OverLength /\%80v.\+/
+   if (ext == "h" || ext == "c")
+	   let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/YouCompleteMe/.ycm_extra_conf_c.py"
+	   highlight OverLength ctermbg=red ctermfg=white
+	   match OverLength /\%80v.\+/
+   endif
+   if (ext == "hpp" || ext == "cpp" || ext == "hh" || ext == "cc")
+	   let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/YouCompleteMe/.ycm_extra_conf_cpp.py"
+   endif
    highlight UnwantSpace ctermbg=red ctermfg=white
    2match UnwantSpace /\s\+\%#\@<!$/
-else
-	set tabstop=4
-	set shiftwidth=4
-	set noexpandtab
-	set autoindent
 endif
 
 :command -nargs=* Make make <args> | cwindow 3
 
 source ~/.vim/epitech.vim
 
-:set listchars+=nbsp:#
+set listchars+=nbsp:#
 set laststatus=2
