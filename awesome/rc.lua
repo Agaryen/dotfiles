@@ -36,10 +36,6 @@ do
     end)
 end
 
--- | Pomodoro | --
-
-pomodoro.init();
-
 -- | Fix's | --
 
 -- Disable cursor animation:
@@ -414,10 +410,6 @@ for s = 1, screen.count() do
 
     right_layout:add(baticon)
     right_layout:add(batwidget)
-
-    right_layout:add(spr)
-
-    right_layout:add(pomodoro.widget)
 
     right_layout:add(spr)
 
