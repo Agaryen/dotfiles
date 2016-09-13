@@ -9,6 +9,8 @@ local naughty    = require("naughty")
 local lain       = require("lain")
 local pomodoro	 = require("pomodoro")
 
+require("revelation")
+
 -- | Theme | --
 
 local theme = "pro-gotham"
@@ -36,6 +38,10 @@ do
     end)
 end
 
+-- | Pomodoro | --
+
+pomodoro.init();
+
 -- | Fix's | --
 
 -- Disable cursor animation:
@@ -56,8 +62,8 @@ local exec   = function (s) oldspawn(s, false) end
 local shexec = awful.util.spawn_with_shell
 
 modkey        = "Mod4"
-terminal      = "urxvt"
-browser       = "firefox"
+terminal      = "termite"
+browser       = "chromium"
 
 -- | Table of layouts | --
 
@@ -65,9 +71,10 @@ local layouts =
 {
    lain.layout.uselesstile,
    lain.layout.uselessfair,
+   lain.layout.termfair,
    lain.layout.centerfair,
+   lain.layout.centerwork,
    lain.layout.uselesspiral,
-   lain.layout.centerwork
 }
 
 lain.layout.centerfair.nmaster = 3
@@ -413,6 +420,10 @@ for s = 1, screen.count() do
 
     right_layout:add(spr)
 
+    right_layout:add(pomodoro.widget)
+
+    right_layout:add(spr)
+
     right_layout:add(widget_clock)
     right_layout:add(widget_display_l)
     right_layout:add(clockwidget)
@@ -436,7 +447,6 @@ end
 -- | Mouse bindings | --
 
 root.buttons(awful.util.table.join(
-    awful.button({ }, 3, function () mainmenu:toggle() end)
     -- awful.button({ }, 4, awful.tag.viewnext),
     -- awful.button({ }, 5, awful.tag.viewprev)
 ))
@@ -469,6 +479,7 @@ globalkeys = awful.util.table.join(
             awful.client.focus.byidx(-1)
             if client.focus then client.focus:raise() end
         end),
+    awful.key({modkey}, "e", revelation),
 
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "l", function () awful.client.swap.byidx(  1)    end),
@@ -497,13 +508,18 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "]",     function () awful.tag.incncol(-1)         end),
     awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1) end),
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
-    awful.key({ modkey,           }, "F12",   function () awful.util.spawn("xscreensaver-command -lock") end),
+    awful.key({ modkey,           }, "F12",   function () awful.util.spawn("dm-tool lock") end),
+    awful.key({ modkey, "Control" }, "c",     function () awful.layout.inc(layouts, 1) awful.util.spawn("/home/rizzen/AER/hover.sh") end),
+    awful.key({ modkey, "Control" }, "x",     function () awful.layout.inc(layouts, -1) awful.util.spawn("killall vlc") end),
 
     -- Pomodoro
 
     awful.key({ modkey,         }, ";",  function() pomodoro:start() end),
     awful.key({ modkey,         }, "'",  function() pomodoro:stop() end),
 
+    -- Browser
+    
+    awful.key({ modkey,           }, "b", function () awful.util.spawn(browser) end),
 
     awful.key({ modkey, "Control" }, "n", awful.client.restore),
 
@@ -618,8 +634,11 @@ awful.rules.rules = {
     { rule = { class = "MPlayer" },
           properties = { floating = true } },
 
-    { rule = { class = "Dwb" },
+    { rule = { class = "Firefox" },
           properties = { tag = tags[1][1] } },
+
+    { rule = { class = "Vlc" },
+          properties = { tag = tags[1][9] } },
 
     { rule = { class = "Iron" },
           properties = { tag = tags[1][1] } },
