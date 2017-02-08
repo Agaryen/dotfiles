@@ -53,13 +53,17 @@ plugins=(git)
 
 # User configuration
 
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl"
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/opt"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
+
+export PAGER=less
+export EDITOR=vim
+export TERM=xterm-256color
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -84,9 +88,23 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 #
 
-bindkey -v
+# Rehashing
+zstyle ':completion:*' rehash true
+
+# Get notified when someone logs in
+watch=all						# watch all logins
+logcheck=30						#every 30 seconds
+WATCHFMT="%n from %M has %a tty%l at %T %W"
 
 alias boff='xset b off'
 alias svim='sudo vim'
 alias :o='vim'
 alias resap='sudo systemctl restart httpd'
+alias wd='cd `cat ~/.wd`'
+alias spacemacs='emacs -nw'
+alias emacs='emacs -nw'
+alias testing='gcc *.c -Wall -Wextra -o test && ./test'
+alias webpack='webpack --progress --colors'
+
+export NVM_DIR="/home/rizzen//.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
