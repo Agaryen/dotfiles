@@ -1,3 +1,4 @@
+
 --[[
                                       
      Multicolor Awesome WM config 2.0 
@@ -9,9 +10,9 @@
 theme                               = {}
 
 theme.confdir                       = os.getenv("HOME") .. "/.config/awesome/themes/multicolor"
-theme.wallpaper                     = theme.confdir .. "/wall.png"
+theme.wallpaper                     = theme.confdir .. "/tim.jpg"
 
-theme.font                          = "Terminus 8"
+theme.font                          = "ohsnap 8"
 --theme.taglist_font                =
 theme.menu_bg_normal                = "#000000"
 theme.menu_bg_focus                 = "#000000"
@@ -41,6 +42,7 @@ theme.menu_fg_normal                = "#aaaaaa"
 theme.menu_fg_focus                 = "#ff8c00"
 theme.menu_bg_normal                = "#050505dd"
 theme.menu_bg_focus                 = "#050505dd"
+theme.useless_gap                   = 7
 
 theme.submenu_icon                  = theme.confdir .. "/icons/submenu.png"
 theme.widget_temp                   = theme.confdir .. "/icons/temp.png"
@@ -80,6 +82,8 @@ theme.layout_max                    = theme.confdir .. "/icons/max.png"
 theme.layout_fullscreen             = theme.confdir .. "/icons/fullscreen.png"
 theme.layout_magnifier              = theme.confdir .. "/icons/magnifier.png"
 theme.layout_floating               = theme.confdir .. "/icons/floating.png"
+
+theme.useless_gap_width = 15
 
 
 return theme
