@@ -12,6 +12,8 @@ set incsearch
 set scrolloff=5
 set fillchars+=vert:\
 
+let mapleader=" "
+
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 
 "IDENTATION
@@ -28,12 +30,14 @@ set list
 
 set backspace=indent,eol,start
 
-set timeoutlen=30 ttimeoutlen=0
+set notimeout
+set ttimeout
 
 set nobackup
 set wildignore=*.o,*.obj,*.bak,*.exe,*.out
 
 filetype plugin indent on
+
 
 let python_highlight_all = 1
 syntax on
@@ -46,12 +50,10 @@ colorscheme gruvbox
 
 "KEYBINDINGS
 
-nmap <space> <leader>
-
 nmap <Tab> ==
 imap <Tab> <C-v><Tab>
 
-nmap <leader><p> :set relativenumber!<CR>
+nmap <Leader><p> :set relativenumber!<CR>
 
 nmap <C-t> :NERDTreeToggle<CR>
 nmap <C-h> :bp<CR>
@@ -97,7 +99,6 @@ Plug 'Raimondi/delimitMate'
 Plug 'Valloric/YouCompleteMe'
 Plug 'jelera/vim-javascript-syntax'
 Plug 'pangloss/vim-javascript'
-"Plug 'helino/vim-json'
 Plug 'mxw/vim-jsx'
 Plug 'othree/jsdoc-syntax.vim'
 Plug 'heavenshell/vim-jsdoc'
@@ -107,6 +108,7 @@ Plug 'scrooloose/syntastic'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'isruslan/vim-es6'
+Plug 'morhetz/gruvbox'
 
 call plug#end()
 
