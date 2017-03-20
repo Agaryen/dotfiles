@@ -8,11 +8,11 @@ set virtualedit=
 set ruler
 set showcmd
 set incsearch
+set noerrorbells
+set modeline
 
 set scrolloff=5
 set fillchars+=vert:\
-
-let mapleader=" "
 
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 
@@ -28,6 +28,17 @@ set cinoptions={1s,>2s,e-1s,^-1s,n-1s,:1s,p5,i4,(0,u0,W1s
 set listchars=tab:··
 set list
 
+set splitbelow
+
+"au BufNewFile,BufRead *.py
+"    \ set autoindent |
+"    \ set shiftwidth=4 |
+"    \ set tabstop=4 |
+"    \ set softtabstop=4 |
+"    \ set textwidth=79 |
+"    \ set expandtab |
+"    \ set fileformat=unix
+
 set backspace=indent,eol,start
 
 set notimeout
@@ -37,9 +48,6 @@ set nobackup
 set wildignore=*.o,*.obj,*.bak,*.exe,*.out
 
 filetype plugin indent on
-
-
-let python_highlight_all = 1
 syntax on
 
 let g:gruvbox_italic = 1
@@ -50,12 +58,13 @@ colorscheme gruvbox
 
 "KEYBINDINGS
 
+let mapleader=","
+
 nmap <Tab> ==
 imap <Tab> <C-v><Tab>
 
-nmap <Leader><p> :set relativenumber!<CR>
+nmap <Leader>p :set relativenumber!<CR>
 
-nmap <C-t> :NERDTreeToggle<CR>
 nmap <C-h> :bp<CR>
 nmap <C-l> :bn<CR>
 nmap <C-j> :bf<CR>
@@ -84,31 +93,59 @@ autocmd InsertLeave * set nocursorline
 
 call plug#begin('/home/rizzen/.vim/plugged')
 
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'ryanoasis/vim-devicons'
-Plug 'scrooloose/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'chilicuil/vim-sprunge'
-Plug 'scrooloose/nerdcommenter'
-Plug 'airblade/vim-gitgutter'
+"Base
+Plug 'tpope/vim-sensible'
+
+"Theme
+Plug 'morhetz/gruvbox'
+
+"Git
 Plug 'tpope/vim-fugitive'
 Plug 'christoomey/vim-conflicted'
-Plug 'Raimondi/delimitMate'
-Plug 'Valloric/YouCompleteMe'
-Plug 'jelera/vim-javascript-syntax'
-Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx'
-Plug 'othree/jsdoc-syntax.vim'
-Plug 'heavenshell/vim-jsdoc'
-Plug 'digitaltoad/vim-pug'
-Plug 'djoshea/vim-autoread'
-Plug 'scrooloose/syntastic'
+Plug 'airblade/vim-gitgutter'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+
+"UI
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'ryanoasis/vim-devicons'
+
+"FileTools
+Plug 'scrooloose/nerdtree'
+Plug 'jistr/vim-nerdtree-tabs'
+"Plug 'ctrlpvim/ctrlp.vim'
+
+"Autocomplete
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+ "JS
+ Plug 'ternjs/tern_for_vim', { 'for': ['javascript', 'javascript.jsx'] }
+ Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript', 'javascript.jsx'] }
+ Plug 'othree/jspc.vim', { 'for': ['javascript', 'javascript.jsx'] }
+
+"Syntax
+ "JS
+ Plug 'pangloss/vim-javascript'
+ Plug 'mxw/vim-jsx'
+ Plug 'othree/yajs.vim'
+ Plug 'othree/es.next.syntax.vim'
+
+"Snippet
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-Plug 'isruslan/vim-es6'
-Plug 'morhetz/gruvbox'
+
+"Lint
+"Plug 'scrooloose/syntastic'
+Plug 'neomake/neomake'
+
+"NodeJS
+Plug 'moll/vim-node'
+
+"Other
+Plug 'scrooloose/nerdcommenter'
+Plug 'chilicuil/vim-sprunge'
+Plug 'jiangmiao/auto-pairs'
+Plug 'nathanaelkane/vim-indent-guides'
+Plug 'mklabs/split-term.vim'
 
 call plug#end()
 
@@ -130,6 +167,8 @@ let g:airline_theme = 'gruvbox'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#whitespace#enabled = 0
+
+nmap <C-t> <plug>NERDTreeTabsToggle<CR>
 
 " NERDTREE "
 autocmd StdinReadPre * let s:std_in=1
@@ -188,37 +227,31 @@ set updatetime=100
 
 let g:WebDevIconsNerdTreeAfterGlyphPadding = ' '
 
-" YOUCOMPLETEME "
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_confirm_extra_conf = 0
+" DEOPLETE "
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_ignore_case = 1
+inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
-"highlight YcmErrorSign ctermfg=red
-"highlight YcmErrorSection cterm=underline ctermfg=red
-"highlight YcmWarningSign ctermfg=yellow
-"highlight YcmWarningSection cterm=underline ctermfg=yellow
+let g:tern#command = ["tern"]
+let g:tern#arguments = ["--persistent"]
+autocmd CompleteDone * pclose!
 
-map <F8> :YcmCompleter FixIt<CR>
+" NEOMAKE "
+autocmd! BufWritePost,BufEnter * Neomake
+let g:neomake_javascript_enabled_makers = ['eslint']
+let s:eslint_path = system('PATH=$(npm bin):$PATH && which eslint')
+let b:neomake_javascript_eslint_exe = substitute(s:eslint_path, '^\n*\s*\(.\{-}\)\n*\s*$', '\1', '')
 
-" DELIMITMATE "
-let g:delimitMate_expand_cr = 1
+nmap <Leader><Space>o :lopen<CR>      " open location window
+nmap <Leader><Space>c :lclose<CR>     " close location window
+nmap <Leader><Space>, :ll<CR>         " go to current error/warning
+nmap <Leader><Space>n :lnext<CR>      " next error/warning
+nmap <Leader><Space>p :lprev<CR>      " previous error/warning
 
-" SYNTASTIC "
-
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 1
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-
-"highlight SyntasticErrorSign ctermfg=red
-"highlight SyntasticError cterm=underline ctermfg=red
-"highlight SyntasticWarningSign ctermfg=yellow
-"highlight SyntasticWarning cterm=underline ctermfg=yellow
-
-" JAVASCRIPING "
+" JAVASCRIPT "
+let g:javascript_plugin_jsdoc = 1
 let g:javascript_enable_domhtmlcss = 1
+set conceallevel=1
 
 " ULTISNIPS "
 let g:UltiSnipsExpandTrigger = "<C-S>"
-
-" EPIHEADERS "
-source /home/rizzen/.vim/epitech.vim
