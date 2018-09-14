@@ -1,0 +1,20 @@
+#!/usr/bin/env python3
+
+import sys
+import requests
+
+url = 'https://poloniex.com/public?command=returnTicker'
+
+BTC = ''
+ARDR = 'Λ'
+USDT = ''
+ETH = 'Ξ'
+
+SEPARATOR = '   ';
+
+data = requests.get(url).json();
+
+print(BTC, '%.2f' % float(data['USDT_BTC']['last']), USDT, end=SEPARATOR)
+print(ETH, '%.2f' % float(data['USDT_ETH']['last']), USDT, end=SEPARATOR)
+print(ETH, data['BTC_ETH']['last'], BTC, end=SEPARATOR)
+print(ARDR, data['BTC_ARDR']['last'], BTC)
