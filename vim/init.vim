@@ -171,6 +171,9 @@ Plug 'skywind3000/asyncrun.vim'
 
 call plug#end()
 
+" QF "
+autocmd FileType qf nnoremap <buffer> <CR> <CR>:cclose<CR>
+
 " CTRLP "
 
 let g:ctrlp_map = '<c-p>'
