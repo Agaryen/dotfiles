@@ -1,5 +1,5 @@
 set number
-set relativenumber
+"set relativenumber
 set secure
 set hidden
 set wildmenu
@@ -69,24 +69,24 @@ nmap <C-l> :bn<CR>
 nmap <C-j> :bf<CR>
 nmap <C-k> :bl<CR>
 nmap <C-d> :bd<CR>
-"nmap <M-k> :wincmd k<CR>
-"nmap <M-j> :wincmd j<CR>
-"nmap <M-h> :wincmd h<CR>
-"nmap <M-l> :wincmd l<CR>
+nmap <M-k> :wincmd k<CR>
+nmap <M-j> :wincmd j<CR>
+nmap <M-h> :wincmd h<CR>
+nmap <M-l> :wincmd l<CR>
 
-map <Left> <NOP>
-imap <Left> <NOP>
-map <Right> <NOP>
-imap <Right> <NOP>
-map <Up> <NOP>
-imap <Up> <NOP>
-map <Down> <NOP>
-imap <Down> <NOP>
+"map <Left> <NOP>
+"imap <Left> <NOP>
+"map <Right> <NOP>
+"imap <Right> <NOP>
+"map <Up> <NOP>
+"imap <Up> <NOP>
+"map <Down> <NOP>
+"imap <Down> <NOP>
 
 " AUTOCMD
 
-autocmd InsertEnter * set relativenumber!
-autocmd InsertLeave * set relativenumber
+"autocmd InsertEnter * set relativenumber!
+"autocmd InsertLeave * set relativenumber
 
 "PLUGINS
 
@@ -113,6 +113,8 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'scrooloose/nerdtree'
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 
 "Autocomplete
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -130,12 +132,18 @@ Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
  Plug 'mxw/vim-jsx'
  Plug 'othree/yajs.vim'
 " Plug 'othree/es.next.syntax.vim'
+Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 
  "Python
  Plug 'vim-scripts/indentpython.vim'
  "Hashicorp
  Plug 'hashivim/vim-terraform'
  Plug 'hashivim/vim-vagrant'
+
+"Ruby
+Plug 'vim-ruby/vim-ruby'
+Plug 'AndrewRadev/splitjoin.vim'
+
 
 "Snippet
 Plug 'SirVer/ultisnips'
@@ -184,6 +192,7 @@ let g:ctrlp_custom_ignore = {
       \ 'file': '\v(\.d|\.o|\.swp|\~)$',
       \ 'link': 'some_bad_symbolic_links',
       \ }
+let g:ctrlp_open_multiple_files = 'tj'
 
 nmap <Leader>b, :CtrlPBuffer<CR>
 nmap <Leader>bb :CtrlP<CR>
@@ -199,13 +208,13 @@ let g:airline#extensions#whitespace#enabled = 0
 
 " NERDTREE "
 autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 let g:NERDTreeMinimalUI = 1
-let g:NERDTreeQuitOnOpen = 1
 let g:NERDTreeIgnore = ['\.o$', '\~$']
 let g:NERDTreeCascadeOpenSingleChildDir = 1
 let g:NERDTreeMouseMode = 1
+let NERDTreeQuitOnOpen=1
 
 nmap <C-t> <plug>NERDTreeTabsToggle<CR>
 
@@ -266,7 +275,10 @@ let g:tern#arguments = ["--persistent"]
 autocmd CompleteDone * pclose!
 
 " ALE "
-"let g:ale_lint_on_enter = 0
+" let g:ale_lint_on_enter = 0
+" let g:ale_lint_on_save = 1
+" let g:ale_lint_on_text_changed = 0
+" let g:ale_ruby_rubocop_executable = 'bundle'
 
 nmap <Leader><Space>o :lopen<CR>      " open location window
 nmap <Leader><Space>c :lclose<CR>     " close location window
@@ -280,6 +292,12 @@ let g:javascript_enable_domhtmlcss = 1
 set conceallevel=1
 let g:jsx_ext_required = 0
 let g:javascript_plugin_flow = 0
+
+" PRETTIER "
+let g:prettier#exec_cmd_async = 1
+let g:prettier#autoformat = 0
+let g:prettier#quickfix_enabled = 0
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue PrettierAsync
 
 " ULTISNIPS "
 let g:UltiSnipsExpandTrigger = "<C-S>"
